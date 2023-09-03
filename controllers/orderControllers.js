@@ -1,6 +1,6 @@
-import HttpError from "../helpers/HttpError.js";
-import controlWrapper from "../decorators/controlWrapper.js";
+// import HttpError from "../helpers/HttpError.js";
 import Order from "../models/Order.js";
+import controlWrapper from "../decorators/controlWrapper.js";
 import sendEmail from "../helpers/sendEmail.js";
 
 const { CLIENT_EMAIL } = process.env;
@@ -55,21 +55,22 @@ async function createOrder(req, res) {
     </p>
   `;
 
-  let attachments = [];
-  if (file) {
-    const { path } = file;
-    const fileExtension = path.split(".")[path.split(".").length - 1];
-    attachments.push({ filename: `custom-style.${fileExtension}`, path });
-  }
+  // let attachments = [];
+  // if (file) {
+  //   const { path } = file;
+  //   const fileExtension = path.split(".")[path.split(".").length - 1];
+  //   attachments.push({ filename: `custom-style.${fileExtension}`, path });
+  // }
 
-  const email = {
-    to: CLIENT_EMAIL,
-    subject: "Order received",
-    html,
-    attachments,
-  };
+  // const email = {
+  //   to: CLIENT_EMAIL,
+  //   subject: "Order received",
+  //   html,
+  //   attachments,
+  // };
 
-  sendEmail(email);
+  sendEmail(html);
+
   res.status(201).json(result);
 }
 

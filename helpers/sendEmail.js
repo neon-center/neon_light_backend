@@ -1,42 +1,26 @@
-import nodemailer from "nodemailer";
+import sgMail from "@sendgrid/mail";
 
-const {
-  NODEMAILER_EMAIL,
-  NODEMAILER_PASSWORD,
-  NODEMAILER_HOST,
-  NODEMAILER_PORT,
-} = process.env;
+const { SENDGRID_API_KEY, CLIENT_EMAIL, SENDGRID_EMAIL } = process.env;
 
-const config = {
-  host: NODEMAILER_HOST,
-  port: NODEMAILER_PORT,
-  secure: true,
-  auth: {
-    user: NODEMAILER_EMAIL,
-    pass: NODEMAILER_PASSWORD,
-  },
-};
-
-const transport = nodemailer.createTransport(config);
-
-async function sendEmail({ html, subject, to, attachments }) {
-  // attachments must be an array of objects that contain the filename and path
-  const email = {
-    from: NODEMAILER_EMAIL,
-    to,
-    subject,
+const sendEmail = (html) => {
+  // send_grid
+  sgMail.setApiKey(SENDGRID_API_KEY);
+  const msg = {
+    to: CLIENT_EMAIL, // Change to your recipient
+    from: SENDGRID_EMAIL, // Change to your verified sender
+    subject: "Order from neon-light constructor",
+    // text: "and easy to do anywhere, even with Node.js",
     html,
   };
-
-  if (attachments) {
-    email.attachments = attachments;
-  }
-
-  try {
-    await transport.sendMail(email);
-  } catch (error) {
-    console.log(error.message);
-  }
-}
+  sgMail
+    .send(msg)
+    .then(() => {
+      console.log("Email sent");
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+  // send_grid -End
+};
 
 export default sendEmail;
