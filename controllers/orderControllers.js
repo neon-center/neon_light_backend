@@ -11,9 +11,11 @@ async function createOrder(req, res) {
 
   const result = await Order.create({ ...body, fileURL });
 
+  console.log("result :>> ", result);
+
   let orderMarkup = "";
   if (body.order) {
-    orderMarkup = `   
+    orderMarkup = `
       Order:
       <br />
       <br />
@@ -36,7 +38,7 @@ async function createOrder(req, res) {
   }
 
   const html = `
-    <p style="font-family: Courier New">
+    <p style="font-family: Arial, sans-serif">
       Customer info:
       <br />
       <br />
@@ -50,6 +52,12 @@ async function createOrder(req, res) {
       <br />
       Comment: ${result.comment}
       <br />
+      ${
+        result.fileURL
+          ? `<a href="${fileURL}" style="text-transform: uppercase;">Link to additional file</a>
+      <br />`
+          : ""
+      }
       <br />
       ${orderMarkup}
     </p>
