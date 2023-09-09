@@ -1,4 +1,5 @@
 import { Schema, model } from "mongoose";
+
 import Joi from "joi";
 import handleMongooseError from "../helpers/handleMongooseError.js";
 
@@ -94,7 +95,7 @@ const schema = new Schema(
           required: [true, '"font" is required'],
         },
         color: {
-          type: String,
+          type: Number,
           required: [true, '"color" is required'],
         },
         width: {
@@ -156,7 +157,7 @@ const createOrderSchema = Joi.object({
       "none"
     ),
     font: Joi.string().required(),
-    color: Joi.string().required(),
+    color: Joi.number().required(),
     width: Joi.number().required(),
     height: Joi.number().required(),
     price: Joi.number().required(),
